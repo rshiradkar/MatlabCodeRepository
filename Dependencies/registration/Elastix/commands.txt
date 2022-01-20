@@ -1,0 +1,15 @@
+elastix -f Data\CT_crop.mha -m Data\planMR_crop.mha -p rigid.txt -out TransformParams\Rigid
+
+transformix -in Data\planMR_crop.mha -tp TransformParams\Rigid\TransformParameters.0.txt -out Results\MR\Rigid
+
+elastix -f Data\CT_crop.mha -m Results\MR\Rigid\result.mha -fMask Data\CT_crop-regMask.mha -p deform.txt -out TransformParams\Deform
+
+transformix -in Results\MR\Rigid\result.mha -tp TransformParams\Deform\TransformParameters.0.txt -out Results\MR\Deform
+
+// Now change the TransformParameters.0.txt file to TransformParameters.0.mask.txt after changing the FinalBSplineTransformOrder parameter from '3' to '0'
+
+transformix -in Data\diagMR_crop-label.mha -tp TransformParams\Rigid\TransformParameters.0.mask.txt -out Results\MRmask\Rigid
+
+transformix -in Results\MRmask\Rigid\result.mha -tp TransformParams\Deform\TransformParameters.0.mask.txt -out Results\MRmask\Deform
+
+elastix -f G:\.shortcut-targets-by-id\1lRjm8H415GVMV9hWhB-yTApVJlWcKIsZ\UH_45PAT_PPF\000001_T2.mha -m G:\.shortcut-targets-by-id\1lRjm8H415GVMV9hWhB-yTApVJlWcKIsZ\UH_45PAT_PPF\000001_ADC.mha -p rigid.txt 

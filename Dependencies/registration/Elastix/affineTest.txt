@@ -1,0 +1,165 @@
+// This parameter file has kind of realistic values.
+
+// In most other parameter files for testing, the number of samples and iterations is rather low, to allow fast testing.
+
+
+// ********** Image Types
+
+
+(FixedInternalImagePixelType "float")
+
+(FixedImageDimension 3)
+
+(MovingInternalImagePixelType "float")
+
+(MovingImageDimension 3)
+
+
+
+
+// ********** Components
+
+
+(Registration "MultiResolutionRegistration")
+
+(FixedImagePyramid "FixedRecursiveImagePyramid")
+
+(MovingImagePyramid "MovingRecursiveImagePyramid")
+
+(Interpolator "LinearInterpolator")
+
+(ResampleInterpolator "FinalLinearInterpolator")
+
+//(Metric "AdvancedNormalizedCorrelation")
+
+(Metric "NormalizedMutualInformation")
+(Optimizer "AdaptiveStochasticGradientDescent")
+
+(Resampler "DefaultResampler")
+
+
+(Transform "SimilarityTransform")
+
+//(Transform "AffineTransform")
+
+
+//(Scales 100000 10 10 10 100000 10 10 10 100000 1000 1000 1000 )
+
+
+
+
+// ********** Pyramid
+
+
+
+// Total number of resolutions
+
+(NumberOfResolutions 3)
+
+(ImagePyramidSchedule 4 4 4 2 2 2 1 1 1)
+
+
+//(FixedImagePyramidSmoothingSchedule 8 8 8 4 4 4 2 2 2 1 1 1)
+
+
+//(MovingImagePyramidSmoothingSchedule 8 8 8 4 4 4 2 2 2 1 1 1)
+
+(ImagePyramidSmoothingSchedule 4 4 4 2 2 2 1 1)
+
+
+
+
+// ********** Transform
+
+
+(AutomaticScalesEstimation "true")
+
+(AutomaticTransformInitialization "true")
+(AutomaticTransformInitializationMethod "GeometricalCenter")
+
+(HowToCombineTransforms "Compose")
+
+
+
+
+// ********** Optimizer
+
+
+// Maximum number of iterations in each resolution level:
+
+(MaximumNumberOfIterations 500)
+
+(AutomaticParameterEstimation "true")
+
+(UseAdaptiveStepSizes "true")
+
+
+
+
+// ********** Metric
+
+(NumberOfHistogramBins 32)
+
+(FixedKernelBSplineOrder 0)
+
+(MovingKernelBSplineOrder 3)
+
+
+
+// ********** Several
+
+
+(WriteTransformParametersEachIteration "false")
+
+(WriteTransformParametersEachResolution "true")
+
+(WriteResultImageAfterEachResolution "false")
+(WriteResultImage "true")
+
+(ResultImageFormat "mha")
+
+(ShowExactMetricValue "false")
+(ErodeMask "false")
+
+(UseDirectionCosines "true")
+
+(CheckNumberOfSamples "true")
+
+
+
+// ********** ImageSampler
+
+
+//Number of spatial samples used to compute the mutual information in each resolution level:
+
+(ImageSampler "RandomCoordinate")
+(NumberOfSpatialSamples 50000)
+
+(NewSamplesEveryIteration "true")
+
+(UseRandomSampleRegion "false")
+
+(MaximumNumberOfSamplingAttempts 5)
+
+
+
+
+// ********** Interpolator and Resampler
+
+
+//Order of B-Spline interpolation used in each resolution level:
+
+(BSplineInterpolationOrder 1)
+
+
+
+//Order of B-Spline interpolation used for applying the final deformation:
+
+(FinalBSplineInterpolationOrder 3)
+
+
+
+//Default pixel value for pixels that come from outside the picture:
+
+(DefaultPixelValue 0)
+
