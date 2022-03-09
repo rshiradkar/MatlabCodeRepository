@@ -4,8 +4,8 @@ close all;
 
 addpath(genpath('C:\Matlab code from repo'));
 addpath(genpath('C:\MatlabLibs\FileRename_29Nov2010'));
-dDir = 'D:\UH Serial MRI\TP2';
-wDir = 'D:\UH Serial MRI\TP2_restructured';
+dDir = 'F:\Kayat Bittencourt STUDY20210409';
+wDir = 'D:\MRF_Exuva_data';
 patients = dir(dDir);
 patients = patients(3:end,:);
 
@@ -91,7 +91,7 @@ end
 
 unusable = [];
 
-for i = 1:length(patients)
+for i = 14:length(patients)
     
     pDir = [dDir filesep patients(i).name filesep 'DICOM'];
     cd(pDir);
@@ -121,15 +121,15 @@ for i = 1:length(patients)
         fileDir = [sourceDir '\' files(j).name];
         filesDir = dir(fileDir);
         
-        if length(filesDir)<8
+        if length(filesDir)<3
             unusable = [unusable;j];
             continue
         end
         
         cd(fileDir)
-        for k = 3:length(filesDir)
-            FileRename(filesDir(k).name,[filesDir(k).name '.dcm']);
-        end
+        %         for k = 3:length(filesDir)
+        %             FileRename(filesDir(k).name,[filesDir(k).name '.dcm']);
+        %         end
         
         info = dicominfo([fileDir filesep filesDir(3).name]);
         %         disp(info.SeriesDescription);
@@ -154,12 +154,26 @@ for i = 1:length(patients)
             doWrite = 1;
         elseif length(cell2mat(regexpi(info.SeriesDescription,{'ADC'})))==1
             doWrite = 1;
+        elseif length(cell2mat(regexpi(info.SeriesDescription,{'MRF'})))==1
+            doWrite = 1;
+        elseif length(cell2mat(regexpi(info.SeriesDescription,{'DIFF'})))==1
+            doWrite = 1;
+        elseif length(cell2mat(regexpi(info.SeriesDescription,{'diff'})))==1
+            doWrite = 1;
+        elseif length(cell2mat(regexpi(info.SeriesDescription,{'mrf'})))==1
+            doWrite = 1;
         else
             doWrite = 0;
         end
         
         if doWrite == 1
             dd = dicomdir(fileDir);
+            if isempty(dd(1).ImagePositionPatient)
+                continue
+            end
+            if dd(1).InstanceNumber==0
+                dd = renumberInstID(dd);
+            end
             dicomdircopy_rs(fileDir, dd, destDir,{'SeriesDescription','SeriesNumber'});
         end
     end
