@@ -3,33 +3,20 @@ close all;
 
 addpath(genpath('C:\Matlab code from repo'));
 addpath(genpath('C:\MatlabLibs\FileRename_29Nov2010'));
-dDir = 'Z:\UH_Prostate_Radiology\Racial Disparity\batch2';
-wDir = 'G:\Shared drives\Research (1)\Racial Disparity\batch2restructured';
+dDir = 'G:\.shortcut-targets-by-id\17Qn-XoV1vir1rFjHTQVOIm09lAtluLvl\UH_Prostate';
+wDir = 'G:\.shortcut-targets-by-id\17Qn-XoV1vir1rFjHTQVOIm09lAtluLvl\UH_Prostate\restructured';
 patients = dir(dDir);
-patients = patients(3:end,:);
+patients = patients(3:end-1,:);
 
 %%
 unusable = [];
 
-for i = 1:length(patients)
+for i = 1:length(patie
     
-    pDir = [dDir filesep patients(i).name filesep 'DICOM'];
-    cd(pDir);
-    dir2 = dir;
-    cd(dir2(3).name);
-    dir3 = dir;
-    cd(dir3(3).name);
-    dir4 = dir;
-    cd(dir4(3).name);
-    dir5 = dir;
-    
-    if length(dir5)>3
-        sourceDir = pwd;
-    else
-        continue
-    end
+    sourceDir = [dDir filesep patients(i).name ];
     
     files = dir(sourceDir); files = files(3:end,:);
+    
     
     destDir = [wDir filesep patients(i).name];
     mkdir(destDir);
@@ -51,7 +38,7 @@ for i = 1:length(patients)
         %             FileRename(filesDir(k).name,[filesDir(k).name '.dcm']);
         %         end
         
-        info = dicominfo([fileDir filesep filesDir(3).name]);
+        info = dicominfo([fileDir filesep filesDir(4).name]);
         %         disp(info.SeriesDescription);
         %         pause;
         
